@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>GDG Devfest '16</title>
@@ -31,6 +32,35 @@
         top: 25%;
       }
     </style>
+<?php
+if ($_GET['registered']=='True') {
+    ?>
+<script type="text/javascript">
+     Materialize.toast("Registered Successfully!", 4000)
+</script>
+<?php
+}
+$email = $_POST['email'];
+if(isset($email)){
+$con=mysqli_connect("localhost","root","","devfest");
+// Check connection
+if (mysqli_connect_errno())
+  {
+  echo "Failed to connect to MySQL: " . mysqli_connect_error();
+  }
+
+// Perform queries 
+mysqli_query($con,"INSERT INTO subscribers (email) 
+VALUES ('$email')");
+
+mysqli_close($con);
+
+header('Location: index.php?registered=True');
+}
+else{
+
+?>
+
 </head>
 
 <body>
@@ -95,11 +125,13 @@
                     <input id="contact_no" type="text" class="validate" name="contact_no">
                     <label class="active" for="contact_no">Contact Number</label>
                 </div> -->
+                <form action="index.php" method="POST">
                 <div class="input-field col s12">
                     <input type="text" id="email" class="validate" name="email">
                     <label class="active" for="email">Email</label>
                 </div>
                 <div class="center"><input type="submit" value="Send" class="btn waves-effect waves-light custom-yellow-background"><i class=""></i></div>
+                </form>
 
             </div>
             <div class="col m6 terms">
@@ -310,17 +342,18 @@
         <div class="footer-content black-text">Stay in the loop. Be the first to know when we make a move!</div>
     </div>
     <div class="footer-second col s12 m6 l6 black-text">
-        
+        <form action = "index.php" method="POST">
         <div class="row">
         <div class="col m8 s8"><h5 class="black-text">Are you ready to witness the awesomeness?</h5></div>
         <div class="input-field footer-email col m8 s8">
-            <input name="email_newsletter" id="email_newsletter" type="email" class="col s12">
+            <input name="email" id="email_newsletter" type="email" class="col s12">
             <label for="email_newsletter">Email</label>
         </div>
         <div class="input-field col m4 s4">
             <button class="submit-button col s12">Notify Me</button>
         </div>
         </div>
+        </form>
     </div>
     </div>
 </div>
@@ -375,3 +408,6 @@
 </script>
 </body>
 </html>
+<?php
+}
+?>
